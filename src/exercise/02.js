@@ -3,6 +3,22 @@
 
 import * as React from 'react'
 
+// my solution for extra credit 3
+// const useLocalStorageState = keyword => window.localStorage.getItem(keyword);
+
+// KCD's solution
+function useLocalStorageState(key, defaultValue = '') {
+  const [state, setState] = React.useState(
+    () => window.localStorage.getItem(key) || defaultValue,
+  )
+
+  React.useEffect(() => {
+    window.localStorage.setItem(key, state)
+  }, [key, state])
+
+  return [state, setState]
+}
+
 function Greeting({initialName = ''}) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') || initialName
@@ -14,15 +30,22 @@ function Greeting({initialName = ''}) {
   // const [name, setName] = React.useState(window.localStorage.getItem('name') || initialName);
 
   // extra credit 1
-  const getNameFromLocalStorage = () => window.localStorage.getItem('name') || initialName;
-  const [name, setName] = React.useState(() => getNameFromLocalStorage());
+  // const getNameFromLocalStorage = () => window.localStorage.getItem('name') || initialName;
+  // const [name, setName] = React.useState(() => getNameFromLocalStorage());
+
+  // my extra credit 3
+  // const [name, setName] = React.useState(useLocalStorageState('name') || initialName);
+  // KCD's extra credit 3
+  const [name, setName] = useLocalStorageState('name', initialName);
 
   // 🐨 Here's where you'll use `React.useEffect`.
   // The callback should set the `name` in localStorage.
   // 💰 window.localStorage.setItem('name', name)
-  React.useEffect(() => {
-    window.localStorage.setItem('name', name);
-  }, [name]); // added [name] dependency for extra credit 2
+
+  // this is valid for exercise through EC 2, but KCD's solution to EC3 extracts it out
+  // React.useEffect(() => {
+  //   window.localStorage.setItem('name', name);
+  // }, [name]); // added [name] dependency for extra credit 2
 
   function handleChange(event) {
     setName(event.target.value)
