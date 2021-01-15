@@ -9,11 +9,13 @@ import * as React from 'react'
 // KCD's solution
 function useLocalStorageState(key, defaultValue = '') {
   const [state, setState] = React.useState(
-    () => window.localStorage.getItem(key) || defaultValue,
+    // () => window.localStorage.getItem(key) || defaultValue,
+    () => JSON.parse(window.localStorage.getItem(key)) || defaultValue, // my solution for EC 4
   )
 
   React.useEffect(() => {
-    window.localStorage.setItem(key, state)
+    // window.localStorage.setItem(key, state)
+    window.localStorage.setItem(key, JSON.stringify(state)) // my solution for EC 4
   }, [key, state])
 
   return [state, setState]
