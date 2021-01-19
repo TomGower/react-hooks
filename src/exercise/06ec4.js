@@ -28,6 +28,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+// this remains largely as is, with slight state management refactor
 function PokemonInfo({pokemonName}) {
   const [state, setState] = React.useState({
     status: 'idle',
@@ -77,7 +78,7 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary key={pokemonName}>
+        <ErrorBoundary>
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
